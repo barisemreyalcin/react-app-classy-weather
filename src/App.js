@@ -137,7 +137,7 @@ class Day extends React.Component {
     const { date, max, min, code, isToday } = this.props;
 
     return (
-      <li className="day">
+      <li className={`day ${isToday ? "important" : ""}`}>
         <span>{getWeatherIcon(code)}</span>
         <p>{isToday ? "Today" : formatDay(date)}</p>
         <p>
