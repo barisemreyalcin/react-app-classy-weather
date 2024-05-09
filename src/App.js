@@ -2,13 +2,15 @@ import React from "react";
 
 class App extends React.Component {
   state = {
-    location: "hatay",
+    location: "",
     isLoading: false,
     displayLocation: "",
     weather: {},
   };
 
   fetchWeather = async () => {
+    if (this.state.location.length < 2) return this.setState({ weather: {} });
+
     try {
       this.setState({ isLoading: true });
 
@@ -44,6 +46,19 @@ class App extends React.Component {
 
   setLocation = (e) => this.setState({ location: e.target.value });
 
+  componentDidMount() {
+    // this.fetchWeather();
+    this.setState({ location: localStorage.getItem("location") || "" }); // empty for first visit to page
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.location !== prevState.location) {
+      this.fetchWeather();
+
+      localStorage.setItem("location", this.state.location);
+    }
+  }
+
   render() {
     return (
       <div className="app">
@@ -53,8 +68,6 @@ class App extends React.Component {
           location={this.state.location}
           onChangeLocation={this.setLocation}
         />
-
-        <button onClick={this.fetchWeather}>Get weather</button>
 
         {this.state.isLoading && <p className="loader">Loading...</p>}
 
@@ -87,6 +100,10 @@ class Input extends React.Component {
 export default App;
 
 class Weather extends React.Component {
+  componentWillUnmount() {
+    console.log("No weather info");
+  }
+
   render() {
     const {
       temperature_2m_max: max,
