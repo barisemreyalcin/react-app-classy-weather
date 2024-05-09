@@ -1,18 +1,14 @@
 import React from "react";
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      location: "hatay",
-      isLoading: false,
-      displayLocation: "",
-      weather: {},
-    };
-    this.fetchWeather = this.fetchWeather.bind(this);
-  }
+  state = {
+    location: "hatay",
+    isLoading: false,
+    displayLocation: "",
+    weather: {},
+  };
 
-  async fetchWeather() {
+  fetchWeather = async () => {
     try {
       this.setState({ isLoading: true });
 
@@ -44,7 +40,7 @@ class App extends React.Component {
     } finally {
       this.setState({ isLoading: false });
     }
-  }
+  };
 
   render() {
     return (
@@ -84,7 +80,7 @@ class Weather extends React.Component {
 
     return (
       <div>
-        <h2>weather {this.props.location}</h2>
+        <h2>Weather in {this.props.location}</h2>
         <ul className="weather">
           {dates.map((date, i) => (
             <Day
